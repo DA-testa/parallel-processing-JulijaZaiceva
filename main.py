@@ -1,49 +1,42 @@
-def heapify(data, k, swap):
-    l = 2 * k + 1
-    r = 2 * k + 2
-    if l < len(data) and data[l] < data[k]:
-        smallest = l
-    else:
-        smallest = k
-    if r < len(data) and data[r] < data[smallest]:
-        smallest = r
-    if smallest != k:
-        data[k], data[smallest] = data[smallest], data[k]
-        swap.append(int(k))
-        swap.append(int(smallest))
-        heapify(data, smallest, swap)
+def parallel_processing(n, m, data):
+    output = []
+    thread_status = []
+    thread_seconds = []
+    for i in range(n):
+        thread_status.append(True)
+        thread_seconds.append(0)
 
+    next_task_index = 0
 
-def build_heap(data):
-    swap = []
-    n = int((len(data) // 2) - 1)
-    for k in range(n, -1, -1):
-        heapify(data, k, swap)
-    return swap
+    count_sec = 0
+    while True:
+        for i in range(n):
+            if thread_status[i]:
+                thread_status[i] = False
+                thread_seconds[i] = data[next_task_index]
+                output.append(str(i) + " " + str(count_sec))
+                next_task_index += 1
+                if next_task_index == m:
+                    return output
+
+        for i in range(n):
+            thread_seconds[i] += -1
+            if thread_seconds[i] == 0:
+                thread_status[i] = True
+
+        count_sec += 1
 
 
 def main():
-    n =0
-    data = None
-    txt = input()
-    if txt[0]=='I':
-        n = int(input())
-        data = list(map(int, input().split()))
-    if txt[0]=='F':
-#         path = input()
-#         file = open("./test/"+path,mode ="r")
-#         lines = file.readlines()
-#         count = int(lines[0])
-#         num = lines[1].split()
-#     n = int(input())
-#     data = list(map(int, input().split()))
-    assert len(data) == n
-    swaps = build_heap(data)
+    split = list(map(int, input().split()))
+    n = split[0]
+    m = split[1]
+    data = list(map(int, input().split()))
 
-    print(int(len(swaps) / 2))
-    for i in range(len(swaps)):
-        if i % 2 == 0:
-            print(str(swaps[i]) + " " + str(swaps[i + 1]))
+    result = parallel_processing(n, m, data)
+
+    for i in result:
+        print(i)
 
 
 if __name__ == "__main__":
