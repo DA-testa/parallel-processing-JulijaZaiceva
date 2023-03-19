@@ -23,8 +23,20 @@ def build_heap(data):
 
 
 def main():
-    n = int(input())
-    data = list(map(int, input().split()))
+    n =0
+    data = None
+    txt = input()
+    if txt[0]=='I':
+        n = int(input())
+        data = list(map(int, input().split()))
+    if txt[0]=='F':
+#         path = input()
+#         file = open("./test/"+path,mode ="r")
+#         lines = file.readlines()
+#         count = int(lines[0])
+#         num = lines[1].split()
+#     n = int(input())
+#     data = list(map(int, input().split()))
     assert len(data) == n
     swaps = build_heap(data)
 
