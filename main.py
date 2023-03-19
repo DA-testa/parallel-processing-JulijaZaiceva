@@ -1,30 +1,37 @@
-# python3
+def heapify(data, k, swap):
+    l = 2 * k + 1
+    r = 2 * k + 2
+    if l < len(data) and data[l] < data[k]:
+        smallest = l
+    else:
+        smallest = k
+    if r < len(data) and data[r] < data[smallest]:
+        smallest = r
+    if smallest != k:
+        data[k], data[smallest] = data[smallest], data[k]
+        swap.append(int(k))
+        swap.append(int(smallest))
+        heapify(data, smallest, swap)
 
-def parallel_processing(n, m, data):
-    output = []
-    # TODO: write the function for simulating parallel tasks, 
-    # create the output pairs
 
-    return output
+def build_heap(data):
+    swap = []
+    n = int((len(data) // 2) - 1)
+    for k in range(n, -1, -1):
+        heapify(data, k, swap)
+    return swap
+
 
 def main():
-    # TODO: create input from keyboard
-    # input consists of two lines
-    # first line - n and m
-    # n - thread count 
-    # m - job count
-    n = 0
-    m = 0
+    n = int(input())
+    data = list(map(int, input().split()))
+    assert len(data) == n
+    swaps = build_heap(data)
 
-    # second line - data 
-    # data - contains m integers t(i) - the times in seconds it takes any thread to process i-th job
-    data = []
-
-    # TODO: create the function
-    result = parallel_processing(n,m,data)
-    
-    # TODO: print out the results, each pair in it's own line
-
+    print(int(len(swaps) / 2))
+    for i in range(len(swaps)):
+        if i % 2 == 0:
+            print(str(swaps[i]) + " " + str(swaps[i + 1]))
 
 
 if __name__ == "__main__":
